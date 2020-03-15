@@ -11,4 +11,9 @@ object Rules {
       p2.equals(Move.PAPER) && p1.equals(Move.ROCK)) Result.PLAYER2_WON
     else Result.TIE
   }
+
+  def getPredictOpponentRules(p1: Move, p2: Move): Result = {
+    if (p1.equals(p2)) Result.PLAYER1_WON
+    else Result.PLAYER2_WON
+  }
 }

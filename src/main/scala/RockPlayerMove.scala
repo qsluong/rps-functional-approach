@@ -1,5 +1,5 @@
 import Move.Move
 
 object RockPlayerMove {
-  def setMove(): Move = Move.ROCK
+  def setMove(l:List[TurnResult]): Move = Move.ROCK
 }

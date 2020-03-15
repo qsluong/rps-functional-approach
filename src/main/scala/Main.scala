@@ -4,17 +4,18 @@ import Result.Result
 object Main {
   var isPlaying: Boolean = true
   def main(args: Array[String]): Unit = {
+    val rules: (Move, Move) => Result = (x: Move, y: Move) => Rules.getResult(x, y)
+    val predictRules: (Move, Move) => Result = (x: Move, y: Move) => Rules.getPredictOpponentRules(x, y)
+    val game: Game = new Game(rules)
+    val playerAI = CounterLastTurnPlayer
 
     while (isPlaying) {
       println("Your turn. Choose ROCK, PAPER or SCISSOR")
-      val p1Move: Move = PlayerMove.setMove()
-      val p2Move: Move = RockPlayerMove.setMove()
+      val p1Move: Move = PlayerMove.setMove(game.getTurnHistoryPlayer1)
+      val p2Move: Move = playerAI.setMove(game.getTurnHistoryPlayer2)
       println("PLAYER 1: " + p1Move)
       println("PLAYER 2: " + p2Move)
-      val rules: (Move, Move) => Result = (x: Move, y: Move) => Rules.getResult(x, y)
-      val game: Game = new Game(p1Move, p2Move, rules)
-      game.playTurn()
-
+      game.playTurn(p1Move, p2Move)
       println("Score: " + game.getScorePlayer1 + "-" + game.getScorePlayer2)
       val input2 = keepPlayingInput()
       if (input2.toUpperCase.contains("N")) isPlaying = false
